@@ -17,14 +17,15 @@ class BasicCRM {
 
 	public function __construct() {
 
-		add_action('init', [ $this, 'registerPostType' ]);
-		add_action('init', [ $this, 'registerTaxonomies' ]);
+		add_action('init', 									[ $this, 'registerPostType' ]);
+		add_action('init', 									[ $this, 'registerTaxonomies' ]);
 
-		add_action('add_meta_boxes', [ $this, 'addMetaBoxes'] );
-		add_action('save_post', [ $this, 'savePostMeta']);
+		add_action('add_meta_boxes', 						[ $this, 'addMetaBoxes' ] );
+		add_action('save_post', 							[ $this, 'savePostMeta' ]);
 
-		add_filter('manage_edit-client_columns', [ $this, 'columnsNames' ]);
-		add_action('manage_posts_custom_column', [ $this, 'columnsData' ]);
+		add_filter('manage_edit-client_columns', 			[ $this, 'columnsNames' ]);
+		add_action('manage_posts_custom_column', 			[ $this, 'columnsData' ]);
+		add_filter('manage_edit-client_sortable_columns', 	[ $this, 'columnsSortable' ] );
 
 	}
 
@@ -141,6 +142,7 @@ class BasicCRM {
 			'crm_name'				=> 'Name',
 			'crm_position'			=> 'Position',
 			'crm_contact'			=> 'Contact',
+			'date'					=> 'Date'
 		];
 	}
 
@@ -175,7 +177,17 @@ class BasicCRM {
 					esc_html(get_post_meta($post->ID, '_crm_email', true)));
 				break;
 		}
+	}
 
+	/**
+	 * Adding custom sortable columns
+	 */
+	public function columnsSortable() {
+
+	    return [
+	    	'crm_name' 		=> '_crm_last_name',
+	    	'crm_position' 	=> '_crm_company',
+	    ];
 	}
 }
 ?>
