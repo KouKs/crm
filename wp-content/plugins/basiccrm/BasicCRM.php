@@ -18,4 +18,5 @@ defined('ABSPATH') or die('No script kiddies please!');
 define('CRM_VERSION', '1.0');
 define('CRM_PLUGIN_DIR', plugin_dir_path(__FILE__));
 
-
+require_once('BasicCRM-core.php');
+require_once('BasicCRM-meta-boxes.php');
