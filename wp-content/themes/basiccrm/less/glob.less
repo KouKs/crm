@@ -308,6 +308,28 @@ p {
  * 4.0 - Froms
  */
 
+ .search {
+ 	margin: 15px 0; 
+
+ 	input, select, button {
+ 		padding: 10px;
+		margin: 0;
+		border: 1px solid #ddd;
+ 		line-height: 21px;
+ 		outline: none;
+ 		background: white;
+ 	}
+
+ 	button {
+
+ 		&:hover {
+ 			background: @theme;
+ 			border-color: @theme;
+ 			color: #fff;
+ 		}
+ 	}
+ }
+
 /**
  * 5.0 - Tables
  */
@@ -315,6 +337,7 @@ p {
 table.table-simple {
 	border: 1px solid #ddd;
 	border-radius: 3px;
+	margin-bottom: 20px;
 
 	td{
 		vertical-align: top;
@@ -323,7 +346,6 @@ table.table-simple {
 	thead, tfoot {
 		td {
 			padding: 15px 10px;
-			
 		}
 
 		td.sortable {
@@ -377,7 +399,7 @@ table.table-simple {
 		}
 
 		tr:nth-child(odd) {
-			background: #f8f8f8;
+			background: #fafafa;
 		}
 
 	}
