@@ -64,16 +64,29 @@ add_action('pre_get_posts', function ($query) use($order, $order_meta_key) {
 	if (is_admin())
 		return $query;
 
-	$query->query_vars =  [
-		'meta_key' 			=> $order_meta_key,
-		'orderby' 			=> 'meta_value',
-		'order' 			=> $order,
-		'posts_per_page' 	=> 5,
-		'paged'				=> get_query_var('paged') ? get_query_var('paged') : 1,
-		'meta_query'		=> [
-			'key' => $order_meta_key
-		],
-	];
+	if($order_meta_key == 'post_date') {
+
+		$query->query_vars =  [
+			'orderby' 			=> 'date',
+			'order' 			=> $order,
+			'posts_per_page' 	=> 5,
+			'paged'				=> get_query_var('paged') ? get_query_var('paged') : 1,
+		];
+
+	} else {
+
+		$query->query_vars =  [
+			'meta_key' 			=> $order_meta_key,
+			'orderby' 			=> 'meta_value',
+			'order' 			=> $order,
+			'posts_per_page' 	=> 5,
+			'paged'				=> get_query_var('paged') ? get_query_var('paged') : 1,
+			'meta_query'		=> [
+				'key' => $order_meta_key
+			],
+		];
+
+	}
 
 	if ($query->is_main_query())
 		$query->set('post_type', 'client');

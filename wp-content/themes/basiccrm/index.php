@@ -45,7 +45,11 @@ get_header(); ?>
 								</a>
 							</td>
 							<td>Contact</td>
-							<td>Date</td>
+							<td class="sortable <?= get_order_class('post_date') ?>">
+								<a href="<?= get_order_url('post_date') ?>">
+									<span>Date</span>									
+								</a>
+							</td>
 						</tr>
 					</thead>
 
@@ -62,7 +66,11 @@ get_header(); ?>
 								</a>
 							</td>
 							<td>Contact</td>
-							<td>Date</td>
+							<td class="sortable <?= get_order_class('post_date') ?>">
+								<a href="<?= get_order_url('post_date') ?>">
+									<span>Date</span>									
+								</a>
+							</td>
 						</tr>
 					</tfoot>
 
