@@ -1,70 +1,77 @@
 <?php
 /**
  * The main template file
- *
- * This is the most generic template file in a WordPress theme
- * and one of the two required files for a theme (the other being style.css).
- * It is used to display a page when nothing more specific matches a query.
- * E.g., it puts together the home page when no home.php file exists.
- *
- *
- * @package WordPress
- * @subpackage BasicCRM
  */
+$orderby = @$_GET['orderby'] ? $_GET['orderby'] : '';
+$order = @$_GET['order'] ? $_GET['order'] : '';
 
-?><!DOCTYPE html>
-<html lang="en">
-<head>
-	<title>Basic CRM</title>
+$loop = new WP_Query([
+	'post_type' => 'client',
+	'orderby' => $orderby,
+	'order' => $order,
+]);
 
-	<link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>">
+$reverse = [ 'asc' => 'desc', 'desc' => 'asc' ];
 
-	<meta charset="<?php bloginfo( 'charset' ); ?>">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
+get_header(); ?>
 
-<body>
-
-<div id="page" class="site">
-
-	<header id="master" class="site-header" role="banner">
-
-	</header>
-
-	<div id="content" class="site-content">
-
+	<div id="primary" class="content-area">
 		<main id="main" class="site-main" role="main">
+			<?php if ($loop->have_posts()) : ?>
 
-			<?php if(have_posts()): ?>
+				<table id="clients" class="table-simple">
+					<thead>
+						<tr>
+							<td class="sortable <?= $orderby == '_crm_last_name' ? $order : 'none' ?>">
+								<a href="<?= esc_url(add_query_arg([ 'orderby' => '_crm_last_name', 'order' => $orderby == '_crm_last_name' ? $reverse[$order] : 'asc', ], $_SERVER['REQUEST_URI'])); ?>">
+									<span>Name</span>									
+								</a>
+							</td>
+							<td class="sortable <?= $orderby == '_crm_company' ? $order : 'none' ?>">
+								<a href="<?= esc_url(add_query_arg([ 'orderby' => '_crm_company', 'order' => $orderby == '_crm_company' ? $reverse[$order] : 'asc', ], $_SERVER['REQUEST_URI'])); ?>">
+									<span>Position</span>									
+								</a>
+							</td>
+							<td>Contact</td>
+							<td>Date</td>
+						</tr>
+					</thead>
 
-				<?php
+					<tbody>
+						<?php while ($loop->have_posts()) : $loop->the_post();
 
-				while ( have_posts() ) : the_post();
+							$companies = get_the_terms($post, 'company');
+							$positions = get_the_terms($post, 'position');
+						?>
+							<tr>
+								<td>
+									<?php printf('<strong>%s %s</strong>',
+										esc_html(get_post_meta($post->ID, '_crm_first_name', true)),
+										esc_html(get_post_meta($post->ID, '_crm_last_name', true))); ?>
+								</td>
+								<td>
+									<?php printf('%s at <strong>%s</strong>',
+										esc_html(@$positions[0]->name),
+										esc_html(@$companies[0]->name)); ?>
+								</td>
+								<td>
+									<?php printf('<strong>Phone:</strong> %s <br /> <strong>Email:</strong> %s',
+										esc_html(get_post_meta($post->ID, '_crm_telephone', true)),
+										esc_html(get_post_meta($post->ID, '_crm_email', true))); ?>
+								</td>
+								<td><?php printf('<strong>Created:</strong> %s <br /> <strong>Updated:</strong> %s',
+										get_the_date(),
+										get_the_modified_date()); ?>
+								</td>
+							</tr>
+						<?php endwhile; ?>
+					</tbody>
 
-					the_title( printf( '<h2 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h2>' );
+				</table>
 
-				endwhile;
+			<?php endif; ?>
 
-				// Pagination
-				the_posts_pagination( array(
-					'prev_text'          => __( 'Previous page', 'twentysixteen' ),
-					'next_text'          => __( 'Next page', 'twentysixteen' ),
-					'before_page_number' => '<span class="meta-nav screen-reader-text">Page</span>',
-				) );
+		</main><!-- .site-main -->
+	</div><!-- .content-area -->
 
-			// If no content, include the "No posts found" template.
-			/*
-			else :
-				get_template_part( 'template-parts/content', 'none' );
-
-			*/
-			endif;
-			?>
-		</main>
-	</div>
-</div>
-
-<?php wp_footer(); ?>
-
-</body>
-</html>
+<?php get_footer(); ?>
