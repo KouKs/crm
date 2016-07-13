@@ -53,6 +53,7 @@ add_action( 'pre_get_posts', function ($query) use($order, $order_meta_key) {
 		'orderby' 			=> 'meta_value',
 		'order' 			=> $order,
 		'posts_per_page' 	=> 5,
+		'paged'				=> get_query_var('paged') ? get_query_var('paged') : 1,
 		'meta_query'		=> [
 			'key' => $order_meta_key
 		],

@@ -86,23 +86,14 @@ get_header(); ?>
 								</td>
 							</tr>
 
-							<?php 
-								wp_link_pages([
-									'before'      => '<div class="page-links"><span class="page-links-title">Pages</span>',
-									'after'       => '</div>',
-									'link_before' => '<span>',
-									'link_after'  => '</span>',
-									'pagelink'    => '<span class="screen-reader-text">Page </span>%',
-									'separator'   => '<span class="screen-reader-text">, </span>',
-								    'nextpagelink'      => 'Next &raquo',
-								    'previouspagelink'  => '&laquo Previous',
-								]);
-							?>
 						<?php endwhile; ?>
 					</tbody>
-
 				</table>
 
+				<div class="pagination">
+					<?php previous_posts_link('<div class="prev">&laquo; Previous</div>') ?>
+					<?php next_posts_link('<div class="next">More &raquo;</div>') ?>
+				</div>
 
 			<?php endif; ?>
 
