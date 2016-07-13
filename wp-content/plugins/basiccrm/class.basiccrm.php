@@ -25,6 +25,7 @@ class BasicCRM {
 
 		add_filter('manage_edit-client_columns', 			[ $this, 'columnsNames' ]);
 		add_action('manage_posts_custom_column', 			[ $this, 'columnsData' ]);
+		add_filter('manage_edit-client_sortable_columns', 	[ $this, 'columnsSortable' ] );
 
 	}
 
@@ -119,8 +120,6 @@ class BasicCRM {
 	 */
 	public function savePostMeta($id) {
 
-		global $post;
-
 		if(wp_is_post_autosave($id) || wp_is_post_revision($id) || wp_verify_nonce(@$_POST['clients_nonce'])) {
 			return;
 		}
@@ -130,12 +129,6 @@ class BasicCRM {
 			if(isset($_POST[$field['name']])) {
 				update_post_meta($id, $field['name'], sanitize_text_field($_POST[$field['name']]));
 			}
-		}
-
-		$companies = get_the_terms($post, 'company');
-
-		if(isset($_POST['newtag']['company'])) {
-			update_post_meta($id, '_crm_company', sanitize_text_field($companies[0]->name));
 		}
 	}
 
@@ -184,6 +177,17 @@ class BasicCRM {
 					esc_html(get_post_meta($post->ID, '_crm_email', true)));
 				break;
 		}
+	}
+
+	/**
+	 * Adding custom sortable columns
+	 */
+	public function columnsSortable() {
+
+	    return [
+	    	'crm_name' 		=> '_crm_last_name',
+	    	'crm_position' 	=> '_crm_company',
+	    ];
 	}
 }
 ?>
