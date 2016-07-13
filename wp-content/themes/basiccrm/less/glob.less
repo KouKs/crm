@@ -1,5 +1,12 @@
-/**
- * Main theme stylesheet
+/*
+ * Theme Name: Basic CRM
+ * Author: Pavel Koch
+ * Description: Custom theme for the Basic CRM system
+ * Tags: simple, crm, table, listing, clients
+ * Text Domain: twentythirteen
+ * Version: 1.0
+ *
+ * === Main theme stylesheet ===
  *
  * Contents:
  * 
@@ -66,6 +73,8 @@ template {
 
 a {
 	background-color: transparent;
+	color: inherit;
+	text-decoration: none;
 }
 
 abbr[title] {
@@ -237,7 +246,7 @@ html {
 }
 
 table {
-	border-collapse: separate;
+	border-collapse: collapse;
 	border-spacing: 0;
 	width: 100%;
 }
@@ -299,6 +308,120 @@ p {
  * 4.0 - Froms
  */
 
+ .search {
+ 	margin: 15px 0; 
+
+ 	input, select, button {
+ 		padding: 10px;
+		margin: 0;
+		border: 1px solid #ddd;
+ 		line-height: 21px;
+ 		outline: none;
+ 		background: white;
+ 	}
+
+ 	button {
+
+ 		&:hover {
+ 			background: @theme;
+ 			border-color: @theme;
+ 			color: #fff;
+ 		}
+ 	}
+ }
+
 /**
  * 5.0 - Tables
  */
+
+table.table-simple {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	margin-bottom: 20px;
+
+	td{
+		vertical-align: top;
+	}
+
+	thead, tfoot {
+		td {
+			padding: 15px 10px;
+		}
+
+		td.sortable {
+			color: @theme;
+			font-weight: bold;
+			cursor: pointer;
+		}
+
+		td.asc:after, td.desc:after, td.none:after {
+			font: 400 18px/1 'dashicons';
+			
+		}
+
+		td.asc {
+			&:after {
+				content: ' \f142';
+			}
+
+			&:hover:after {
+				content: ' \f140';
+			}
+		}
+
+		td.none:hover:after {
+			content: ' \f142';
+		}
+
+		td.desc {
+			&:after {
+				content: ' \f140';
+			}
+
+			&:hover:after {
+				content: ' \f142';
+			}
+		}
+
+		tr {
+			background: #fff;
+			border-bottom: 1px solid #ccc;
+		}
+	}
+
+	tbody {
+		td {
+			padding: 10px;
+		}
+
+		tr {
+			background: #fff;
+		}
+
+		tr:nth-child(odd) {
+			background: #fafafa;
+		}
+
+	}
+}
+
+/**
+ * 6.0 - Search bar
+ */
+
+.site-header {
+	padding: 42px 10px 10px;
+	background: @theme;
+	color: #fff;
+}
+
+/**
+ * 6.0 - Content
+ */
+body {
+	background: #eee;
+}
+.site-main {
+	width: 60%;
+	margin: 70px 20% 0;
+}
