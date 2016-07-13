@@ -13,7 +13,9 @@ $search = @$_GET['s'] ? $_GET['s'] : '';
 $column = @$_GET['column'] ? $_GET['column'] : '';
 
 /**
- * Helper array to reverse sorting directions
+ * Helper function to assign order url
+ *
+ * @param $column Name of column to be ordered by
  */
 function get_order_url($column) {
 
@@ -24,6 +26,11 @@ function get_order_url($column) {
 	return esc_url(add_query_arg([ 'orderby' => $column, 'order' => $order_meta_key == $column ? $reverse[strtolower($order)] : 'asc'], $_SERVER['REQUEST_URI']));
 }
 
+/**
+ * Helper function to assign css class
+ *
+ * @param $column Name of column to be ordered by
+ */
 function get_order_class($column) {
 
 	global $order, $order_meta_key;
@@ -31,6 +38,9 @@ function get_order_class($column) {
 	return $order_meta_key == $column ? esc_html(strtolower($order)) : 'none';
 }
 
+/**
+ * Editing query for custom searches
+ */
 add_filter('posts_clauses', function($clauses) use($search, $column) {
 
     global $wpdb;
@@ -46,7 +56,13 @@ add_filter('posts_clauses', function($clauses) use($search, $column) {
 
 });
 
-add_action( 'pre_get_posts', function ($query) use($order, $order_meta_key) {
+/**
+ * Editing query for custom post type
+ */
+add_action('pre_get_posts', function ($query) use($order, $order_meta_key) {
+
+	if (is_admin())
+		return $query;
 
 	$query->query_vars =  [
 		'meta_key' 			=> $order_meta_key,

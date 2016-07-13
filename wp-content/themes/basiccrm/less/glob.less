@@ -321,6 +321,7 @@ p {
  	}
 
  	button {
+		font-weight: 700;
 
  		&:hover {
  			background: @theme;
@@ -392,6 +393,7 @@ table.table-simple {
 	tbody {
 		td {
 			padding: 10px;
+			font-size: 14px;
 		}
 
 		tr {
@@ -418,10 +420,41 @@ table.table-simple {
 /**
  * 6.0 - Content
  */
+
 body {
 	background: #eee;
 }
+
 .site-main {
 	width: 60%;
 	margin: 70px 20% 0;
+}
+
+.pagination {
+	display: block;
+	overflow: hidden;
+	margin-bottom: 20px;
+	
+	div {
+		width: 49%;
+		padding: 10px;
+		border: 1px solid #ddd;
+		font-weight: 700;
+		text-align: center;
+		background: #fff;
+		
+ 		&:hover {
+ 			background: @theme;
+ 			border-color: @theme;
+ 			color: #fff;
+ 		}
+
+		&.prev {
+			float: left;
+		}
+
+		&.next {
+			float: right;
+		}
+	}
 }

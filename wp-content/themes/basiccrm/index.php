@@ -8,7 +8,7 @@ get_header(); ?>
 	<div id="primary" class="content-area">
 		<main id="main" class="site-main" role="main">
 
-			<form role="search" method="get" id="searchform" class="search" action="http://localhost/crm/">
+			<form role="search" method="get" id="searchform" class="search" action="" style="float: left">
 				<div>
 					<input type="text" name="s" id="s" placeholder="Search">
 					<select name="column">
@@ -18,6 +18,14 @@ get_header(); ?>
 					<button>Go</button>
 				</div>
 			</form>
+
+			<?php if (!empty($order_meta_key) || !empty($search)) : ?>
+				<form role="reset" id="resetform" class="search" action="" style="float: right">
+					<div>
+						<button>Clear filters</button>
+					</div>
+				</form>
+			<?php endif; ?>
 
 			<?php if (have_posts()) : ?>
 
@@ -95,6 +103,8 @@ get_header(); ?>
 					<?php next_posts_link('<div class="next">More &raquo;</div>') ?>
 				</div>
 
+			<?php else : ?>
+				<h1 style="text-align: center; padding: 40px 0;">No clients found :(</h1>
 			<?php endif; ?>
 
 		</main><!-- .site-main -->
