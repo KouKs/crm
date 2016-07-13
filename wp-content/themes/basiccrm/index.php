@@ -26,18 +26,41 @@
 <body>
 
 <div id="page" class="site">
-	<div class="site-inner">
 
-		<header id="master" class="site-header" role="banner">
+	<header id="master" class="site-header" role="banner">
 
-		</header>
+	</header>
 
-		<div id="content" class="site-content">
+	<div id="content" class="site-content">
 
-			<main id="main" class="site-main" role="main">
-				
-			</main>
-		</div>
+		<main id="main" class="site-main" role="main">
+
+			<?php if(have_posts()): ?>
+
+				<?php
+
+				while ( have_posts() ) : the_post();
+
+					the_title( printf( '<h2 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h2>' );
+
+				endwhile;
+
+				// Pagination
+				the_posts_pagination( array(
+					'prev_text'          => __( 'Previous page', 'twentysixteen' ),
+					'next_text'          => __( 'Next page', 'twentysixteen' ),
+					'before_page_number' => '<span class="meta-nav screen-reader-text">Page</span>',
+				) );
+
+			// If no content, include the "No posts found" template.
+			/*
+			else :
+				get_template_part( 'template-parts/content', 'none' );
+
+			*/
+			endif;
+			?>
+		</main>
 	</div>
 </div>
 
